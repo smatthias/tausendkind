@@ -189,6 +189,175 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
 
             }
 
+            // sonata_admin_redirect
+            if (rtrim($pathinfo, '/') === '/admin') {
+                if (substr($pathinfo, -1) !== '/') {
+                    return $this->redirect($pathinfo.'/', 'sonata_admin_redirect');
+                }
+
+                return array (  '_controller' => 'Symfony\\Bundle\\FrameworkBundle\\Controller\\RedirectController::redirectAction',  'route' => 'sonata_admin_dashboard',  'permanent' => 'true',  '_route' => 'sonata_admin_redirect',);
+            }
+
+            // sonata_admin_dashboard
+            if ($pathinfo === '/admin/dashboard') {
+                return array (  '_controller' => 'Sonata\\AdminBundle\\Controller\\CoreController::dashboardAction',  '_route' => 'sonata_admin_dashboard',);
+            }
+
+            if (0 === strpos($pathinfo, '/admin/core')) {
+                // sonata_admin_retrieve_form_element
+                if ($pathinfo === '/admin/core/get-form-field-element') {
+                    return array (  '_controller' => 'sonata.admin.controller.admin:retrieveFormFieldElementAction',  '_route' => 'sonata_admin_retrieve_form_element',);
+                }
+
+                // sonata_admin_append_form_element
+                if ($pathinfo === '/admin/core/append-form-field-element') {
+                    return array (  '_controller' => 'sonata.admin.controller.admin:appendFormFieldElementAction',  '_route' => 'sonata_admin_append_form_element',);
+                }
+
+                // sonata_admin_short_object_information
+                if (0 === strpos($pathinfo, '/admin/core/get-short-object-description') && preg_match('#^/admin/core/get\\-short\\-object\\-description(?:\\.(?P<_format>html|json))?$#s', $pathinfo, $matches)) {
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'sonata_admin_short_object_information')), array (  '_controller' => 'sonata.admin.controller.admin:getShortObjectDescriptionAction',  '_format' => 'html',));
+                }
+
+                // sonata_admin_set_object_field_value
+                if ($pathinfo === '/admin/core/set-object-field-value') {
+                    return array (  '_controller' => 'sonata.admin.controller.admin:setObjectFieldValueAction',  '_route' => 'sonata_admin_set_object_field_value',);
+                }
+
+            }
+
+            // sonata_admin_search
+            if ($pathinfo === '/admin/search') {
+                return array (  '_controller' => 'Sonata\\AdminBundle\\Controller\\CoreController::searchAction',  '_route' => 'sonata_admin_search',);
+            }
+
+            // sonata_admin_retrieve_autocomplete_items
+            if ($pathinfo === '/admin/core/get-autocomplete-items') {
+                return array (  '_controller' => 'sonata.admin.controller.admin:retrieveAutocompleteItemsAction',  '_route' => 'sonata_admin_retrieve_autocomplete_items',);
+            }
+
+            if (0 === strpos($pathinfo, '/admin/app')) {
+                if (0 === strpos($pathinfo, '/admin/app/user')) {
+                    // admin_app_user_list
+                    if ($pathinfo === '/admin/app/user//list') {
+                        return array (  '_controller' => 'AppBundle\\Controller\\UserAdminController::listAction',  '_sonata_admin' => 'app.admin.post',  '_sonata_name' => 'admin_app_user_list',  '_route' => 'admin_app_user_list',);
+                    }
+
+                    // admin_app_user_create
+                    if ($pathinfo === '/admin/app/user/create') {
+                        return array (  '_controller' => 'AppBundle\\Controller\\UserAdminController::createAction',  '_sonata_admin' => 'app.admin.post',  '_sonata_name' => 'admin_app_user_create',  '_route' => 'admin_app_user_create',);
+                    }
+
+                    // admin_app_user_batch
+                    if ($pathinfo === '/admin/app/user/batch') {
+                        return array (  '_controller' => 'AppBundle\\Controller\\UserAdminController::batchAction',  '_sonata_admin' => 'app.admin.post',  '_sonata_name' => 'admin_app_user_batch',  '_route' => 'admin_app_user_batch',);
+                    }
+
+                    // admin_app_user_edit
+                    if (preg_match('#^/admin/app/user/(?P<id>[^/]++)/edit$#s', $pathinfo, $matches)) {
+                        return $this->mergeDefaults(array_replace($matches, array('_route' => 'admin_app_user_edit')), array (  '_controller' => 'AppBundle\\Controller\\UserAdminController::editAction',  '_sonata_admin' => 'app.admin.post',  '_sonata_name' => 'admin_app_user_edit',));
+                    }
+
+                    // admin_app_user_delete
+                    if (preg_match('#^/admin/app/user/(?P<id>[^/]++)/delete$#s', $pathinfo, $matches)) {
+                        return $this->mergeDefaults(array_replace($matches, array('_route' => 'admin_app_user_delete')), array (  '_controller' => 'AppBundle\\Controller\\UserAdminController::deleteAction',  '_sonata_admin' => 'app.admin.post',  '_sonata_name' => 'admin_app_user_delete',));
+                    }
+
+                    // admin_app_user_show
+                    if (preg_match('#^/admin/app/user/(?P<id>[^/]++)/show$#s', $pathinfo, $matches)) {
+                        return $this->mergeDefaults(array_replace($matches, array('_route' => 'admin_app_user_show')), array (  '_controller' => 'AppBundle\\Controller\\UserAdminController::showAction',  '_sonata_admin' => 'app.admin.post',  '_sonata_name' => 'admin_app_user_show',));
+                    }
+
+                    // admin_app_user_export
+                    if ($pathinfo === '/admin/app/user/export') {
+                        return array (  '_controller' => 'AppBundle\\Controller\\UserAdminController::exportAction',  '_sonata_admin' => 'app.admin.post',  '_sonata_name' => 'admin_app_user_export',  '_route' => 'admin_app_user_export',);
+                    }
+
+                }
+
+                if (0 === strpos($pathinfo, '/admin/app/car')) {
+                    // admin_app_car_list
+                    if ($pathinfo === '/admin/app/car/list') {
+                        return array (  '_controller' => 'AppBundle\\Controller\\CRUDController::listAction',  '_sonata_admin' => 'app.admin.car',  '_sonata_name' => 'admin_app_car_list',  '_route' => 'admin_app_car_list',);
+                    }
+
+                    // admin_app_car_create
+                    if ($pathinfo === '/admin/app/car/create') {
+                        return array (  '_controller' => 'AppBundle\\Controller\\CRUDController::createAction',  '_sonata_admin' => 'app.admin.car',  '_sonata_name' => 'admin_app_car_create',  '_route' => 'admin_app_car_create',);
+                    }
+
+                    // admin_app_car_batch
+                    if ($pathinfo === '/admin/app/car/batch') {
+                        return array (  '_controller' => 'AppBundle\\Controller\\CRUDController::batchAction',  '_sonata_admin' => 'app.admin.car',  '_sonata_name' => 'admin_app_car_batch',  '_route' => 'admin_app_car_batch',);
+                    }
+
+                    // admin_app_car_edit
+                    if (preg_match('#^/admin/app/car/(?P<id>[^/]++)/edit$#s', $pathinfo, $matches)) {
+                        return $this->mergeDefaults(array_replace($matches, array('_route' => 'admin_app_car_edit')), array (  '_controller' => 'AppBundle\\Controller\\CRUDController::editAction',  '_sonata_admin' => 'app.admin.car',  '_sonata_name' => 'admin_app_car_edit',));
+                    }
+
+                    // admin_app_car_delete
+                    if (preg_match('#^/admin/app/car/(?P<id>[^/]++)/delete$#s', $pathinfo, $matches)) {
+                        return $this->mergeDefaults(array_replace($matches, array('_route' => 'admin_app_car_delete')), array (  '_controller' => 'AppBundle\\Controller\\CRUDController::deleteAction',  '_sonata_admin' => 'app.admin.car',  '_sonata_name' => 'admin_app_car_delete',));
+                    }
+
+                    // admin_app_car_show
+                    if (preg_match('#^/admin/app/car/(?P<id>[^/]++)/show$#s', $pathinfo, $matches)) {
+                        return $this->mergeDefaults(array_replace($matches, array('_route' => 'admin_app_car_show')), array (  '_controller' => 'AppBundle\\Controller\\CRUDController::showAction',  '_sonata_admin' => 'app.admin.car',  '_sonata_name' => 'admin_app_car_show',));
+                    }
+
+                    // admin_app_car_export
+                    if ($pathinfo === '/admin/app/car/export') {
+                        return array (  '_controller' => 'AppBundle\\Controller\\CRUDController::exportAction',  '_sonata_admin' => 'app.admin.car',  '_sonata_name' => 'admin_app_car_export',  '_route' => 'admin_app_car_export',);
+                    }
+
+                    // admin_app_car_clone
+                    if (preg_match('#^/admin/app/car/(?P<id>[^/]++)/clone$#s', $pathinfo, $matches)) {
+                        return $this->mergeDefaults(array_replace($matches, array('_route' => 'admin_app_car_clone')), array (  '_controller' => 'AppBundle\\Controller\\CRUDController::cloneAction',  '_sonata_admin' => 'app.admin.car',  '_sonata_name' => 'admin_app_car_clone',));
+                    }
+
+                }
+
+            }
+
+            if (0 === strpos($pathinfo, '/admin/sonata/user/user')) {
+                // admin_sonata_user_user_list
+                if ($pathinfo === '/admin/sonata/user/user/list') {
+                    return array (  '_controller' => 'Sonata\\AdminBundle\\Controller\\CRUDController::listAction',  '_sonata_admin' => 'sonata.user.admin.user',  '_sonata_name' => 'admin_sonata_user_user_list',  '_route' => 'admin_sonata_user_user_list',);
+                }
+
+                // admin_sonata_user_user_create
+                if ($pathinfo === '/admin/sonata/user/user/create') {
+                    return array (  '_controller' => 'Sonata\\AdminBundle\\Controller\\CRUDController::createAction',  '_sonata_admin' => 'sonata.user.admin.user',  '_sonata_name' => 'admin_sonata_user_user_create',  '_route' => 'admin_sonata_user_user_create',);
+                }
+
+                // admin_sonata_user_user_batch
+                if ($pathinfo === '/admin/sonata/user/user/batch') {
+                    return array (  '_controller' => 'Sonata\\AdminBundle\\Controller\\CRUDController::batchAction',  '_sonata_admin' => 'sonata.user.admin.user',  '_sonata_name' => 'admin_sonata_user_user_batch',  '_route' => 'admin_sonata_user_user_batch',);
+                }
+
+                // admin_sonata_user_user_edit
+                if (preg_match('#^/admin/sonata/user/user/(?P<id>[^/]++)/edit$#s', $pathinfo, $matches)) {
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'admin_sonata_user_user_edit')), array (  '_controller' => 'Sonata\\AdminBundle\\Controller\\CRUDController::editAction',  '_sonata_admin' => 'sonata.user.admin.user',  '_sonata_name' => 'admin_sonata_user_user_edit',));
+                }
+
+                // admin_sonata_user_user_delete
+                if (preg_match('#^/admin/sonata/user/user/(?P<id>[^/]++)/delete$#s', $pathinfo, $matches)) {
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'admin_sonata_user_user_delete')), array (  '_controller' => 'Sonata\\AdminBundle\\Controller\\CRUDController::deleteAction',  '_sonata_admin' => 'sonata.user.admin.user',  '_sonata_name' => 'admin_sonata_user_user_delete',));
+                }
+
+                // admin_sonata_user_user_show
+                if (preg_match('#^/admin/sonata/user/user/(?P<id>[^/]++)/show$#s', $pathinfo, $matches)) {
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'admin_sonata_user_user_show')), array (  '_controller' => 'Sonata\\AdminBundle\\Controller\\CRUDController::showAction',  '_sonata_admin' => 'sonata.user.admin.user',  '_sonata_name' => 'admin_sonata_user_user_show',));
+                }
+
+                // admin_sonata_user_user_export
+                if ($pathinfo === '/admin/sonata/user/user/export') {
+                    return array (  '_controller' => 'Sonata\\AdminBundle\\Controller\\CRUDController::exportAction',  '_sonata_admin' => 'sonata.user.admin.user',  '_sonata_name' => 'admin_sonata_user_user_export',  '_route' => 'admin_sonata_user_user_export',);
+                }
+
+            }
+
         }
 
         throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();
